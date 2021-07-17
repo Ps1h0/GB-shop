@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.shop.model.Product;
 import ru.geekbrains.shop.repositories.ProductRepository;
+import ru.geekbrains.shop.services.ProductService;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
@@ -13,40 +13,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @GetMapping
-    public List<Product> getAllProducts(){
-        return (List<Product>) productRepository.findAll();
+    public List<Product> getAllProducts(
+            @RequestParam(name = "min_price", defaultValue = "0") Double minPrice,
+            @RequestParam(name = "max_price", required = false) Double maxPrice
+    ){
+        if (maxPrice == null){
+            maxPrice = Double.MAX_VALUE;
+        }
+        return productService.findAllByPrice(minPrice, maxPrice);
     }
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable Long id){
-        return productRepository.findById(id).get();
+        return productService.findProductById(id).get();
     }
 
     @PostMapping
     public Product save(@RequestBody Product product){
-        return productRepository.save(product);
+        return productService.saveOrUpdate(product);
     }
 
-    @DeleteMapping("/delete/{id}")
+//    @DeleteMapping("/delete/{id}")
+    @DeleteMapping
     public void deleteProductById(@PathVariable Long id){
-        productRepository.deleteById(id);
+        productService.deleteProductById(id);
     }
 
-    @GetMapping("/cost")
-    public List<Product> getProductGreaterAndLessThan(@RequestParam Double min, @RequestParam(defaultValue = "0") Double max){
-        return productRepository.findAllByCostGreaterThanAndCostLessThan(min, max);
-    }
-
-    @GetMapping("/cost_greater_than")
-    public List<Product> getProductGreaterThan(@RequestParam Double min){
-        return productRepository.findAllByCostGreaterThanEqual(min);
-    }
-
-    @GetMapping("/cost_less_than")
-    public List<Product> getProductLessThan(@RequestParam Double max){
-        return productRepository.findAllByCostLessThanEqual(max);
-    }
 }
