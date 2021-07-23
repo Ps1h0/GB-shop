@@ -19,12 +19,15 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public Optional<ProductDto> findProductById(Long id) {
+    public Optional<Product> findProductById(Long id) {
+        return productRepository.findById(id);
+    }
+
+    public Optional<ProductDto> findProductDtoById(Long id){
         return productRepository.findById(id).map(ProductDto::new);
     }
 
     public Page<ProductDto> findAll(Specification<Product> spec, int page, int pageSize) {
-        if (page < 0) throw new RuntimeException();
         return productRepository.findAll(spec, PageRequest.of(page - 1, pageSize)).map(ProductDto::new);
     }
 

@@ -19,3 +19,11 @@ insert into products (name, cost) values
 ('K', 110),
 ('L', 120),
 ('M', 130);
+
+create table order_items (
+    id bigserial primary key,
+    name varchar(255),
+    quantity int,
+    cost_per_item double precision,
+    cost double precision
+);
