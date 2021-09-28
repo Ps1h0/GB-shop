@@ -11,8 +11,6 @@ import ru.geekbrains.shop.model.entities.Product;
 import ru.geekbrains.shop.repositories.specifications.ProductSpecifications;
 import ru.geekbrains.shop.services.ProductService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
@@ -33,7 +31,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDto findProductById(@PathVariable Long id){
-        return productService.findProductById(id).orElseThrow(() -> new ResourceNotFoundException("Не существует продукта с id: " + id));
+        return productService.findProductDtoById(id).orElseThrow(() -> new ResourceNotFoundException("Product with id: " + id + " doesn't exist"));
     }
 
     @PostMapping

@@ -1,5 +1,7 @@
 <!doctype html>
+
 <html ng-app="app">
+
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -43,12 +45,16 @@
             <td>Название</td>
             <td>Цена</td>
             <td></td>
+            <td></td>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="p in ProductsPage.content">
             <td>{{p.name}}</td>
             <td>{{p.cost}}</td>
+            <td>
+                <button class="btn btn-primary" ng-click="addToCart(p.id)">Добавить в корзину</button>
+            </td>
             <td>
                 <button class="btn btn-danger" ng-click="deleteProductById(p.id)">Удалить товар</button>
             </td>
@@ -71,6 +77,30 @@
             </li>
         </ul>
     </nav>
+
+    <h3>Корзина</h3>
+    <table class="table table-hover" cellpadding="0" cellspacing="0">
+        <thead>
+        <tr>
+            <td>Название</td>
+            <td>Количество</td>
+            <td>Цена</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="oi in Cart.items">
+            <td>{{oi.productName}}</td>
+            <td>{{oi.quantity}}</td>
+            <td>{{oi.quantity + ' x ' + oi.costPerProduct + ' = ' + oi.cost}}</td>
+        </tr>
+        <tr>
+            <td>Итого</td>
+            <td></td>
+            <td>{{Cart.totalCost}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-danger" ng-click="clearCart()">Очистить корзину</button>
 
     <h3>Добавить новый товар</h3>
     <form novalidate ng-submit="submitCreateNewProduct()">

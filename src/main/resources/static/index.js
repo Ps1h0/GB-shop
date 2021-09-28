@@ -28,6 +28,15 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         });
     };
 
+    $scope.showCart = function (){
+        $http({
+            url: contextPath + '/cart',
+            method: 'GET'
+        }).then(function (response) {
+            $scope.Cart = response.data;
+        });
+    };
+
     $scope.generatePagesIndexes = function (startPage, endPage){
         let arr = [];
         for (let i = startPage; i < endPage + 1; i++){
@@ -51,5 +60,20 @@ angular.module('app', []).controller('indexController', function ($scope, $http)
         });
     }
 
+    $scope.addToCart = function (productId){
+        $http.get(contextPath + '/cart/add/' + productId)
+            .then(function (response) {
+                $scope.showCart();
+            });
+    }
+
+    $scope.clearCart = function (){
+        $http.get(contextPath + '/cart/clear')
+            .then(function (response) {
+                $scope.showCart();
+            });
+    }
+
     $scope.fillTable();
+    $scope.showCart();
 });
