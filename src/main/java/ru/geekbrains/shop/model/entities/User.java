@@ -3,7 +3,6 @@ package ru.geekbrains.shop.model.entities;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @Data
@@ -27,9 +26,7 @@ public class User {
     @Column(name = "score")
     private int score;
 
-    @ManyToMany
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 }
