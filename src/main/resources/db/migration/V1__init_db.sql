@@ -1,4 +1,4 @@
-create table products (id bigserial primary key, name varchar(255), cost int);
+create table products (id bigserial primary key, name varchar(255), cost double precision);
 insert into products (name, cost) values
 ('A', 10),
 ('B', 20),
