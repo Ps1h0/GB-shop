@@ -1,4 +1,10 @@
-create table products (id bigserial primary key, name varchar(255), cost double precision);
+create table products (
+    id bigserial primary key,
+    name varchar(255),
+    cost double precision,
+    created_time timestamp default current_timestamp,
+    updated_time timestamp default current_timestamp
+                      );
 insert into products (name, cost) values
 ('A', 10),
 ('B', 20),
